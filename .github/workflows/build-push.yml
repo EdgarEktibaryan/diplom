@@ -1,4 +1,4 @@
-name: test-task-build-deploy
+name: node-app-build-deploy
 
 on:
   workflow_dispatch:
