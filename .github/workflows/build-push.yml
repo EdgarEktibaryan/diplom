@@ -66,8 +66,8 @@ jobs:
     steps:
       - name: Variables set
         run: |
-          echo "AppVersion=${{ needs.containerise-push.outputs.AppVersion }}" >> $GITHUB_ENV
-          echo "TagVERSION=${{ needs.containerise-push.outputs.TagVERSION }}" >> $GITHUB_ENV
+          echo "AppVersion=${{ needs.build-test.outputs.AppVersion }}" >> $GITHUB_ENV
+          echo "TagVERSION=${{ needs.build-test.outputs.TagVERSION }}" >> $GITHUB_ENV
       - name: Repository checkout
         uses: actions/checkout@v4
       - name: Modify file (Example)
