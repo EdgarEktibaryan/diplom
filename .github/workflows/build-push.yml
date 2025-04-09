@@ -70,7 +70,9 @@ jobs:
       - name: Repository checkout
         uses: actions/checkout@v4
       - name: Modify file (Example)
-        run: sed -i -r 's/tag:".*"/tag:" ${{ env.TagVERSION }}"/' diplom-values.yaml
+        run: |
+          sed -i -r 's/tag:".*"/tag:" ${{ env.TagVERSION }}"/' diplom-values.yaml
+          cat diplom-values.yaml
         working-directory: ./env
       - name: Commit and push changes
         working-directory: ./env
