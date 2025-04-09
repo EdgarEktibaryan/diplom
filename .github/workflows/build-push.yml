@@ -69,6 +69,8 @@ jobs:
           echo "TagVERSION=${{ needs.build-test.outputs.TagVERSION }}" >> $GITHUB_ENV
       - name: Repository checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Modify file (Example)
         run: |
           sed -i -r 's/tag:.*/tag:" ${{ env.TagVERSION }}"/' diplom-values.yaml
