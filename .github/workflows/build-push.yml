@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Variables assignment
         run: echo "AppVersion=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+        env:
+          AppVersion: ${{ env.AppVersion }}
       - name: Repository checkout
         uses: actions/checkout@v4
       - name: Unit Test
@@ -34,6 +36,8 @@ jobs:
     steps:
       - name: Variables assignment
         run: echo "AppVersion=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+        env:
+          AppVersion: ${{ env.AppVersion }}
       - name: Repository checkout
         uses: actions/checkout@v4
       - name: Set up Docker Buildx
