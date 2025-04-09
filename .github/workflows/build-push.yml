@@ -24,10 +24,10 @@ jobs:
           node-version: '22.x'
       - name: Environment preparation
         run: npm install
-        working-directory: ./app-${{ env.AppVersion }}
+        working-directory: apps/app-${{ env.AppVersion }}
       - name: Running tests
         run: npm test
-        working-directory: ./app$-{{ env.AppVersion }}
+        working-directory: apps/app$-{{ env.AppVersion }}
   build-push:
     needs: build-test
     runs-on: ubuntu-latest
@@ -48,6 +48,6 @@ jobs:
       - name: Image build and push
         uses: docker/build-push-action@v6
         with:
-          context: app/.
+          context: apps/app$-{{ env.AppVersion }}
           push: true
           tags: ${{ vars.DOCKER_HUB_USER }}/public-node-app:${{ env.TagVERSION }}
