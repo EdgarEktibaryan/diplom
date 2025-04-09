@@ -73,7 +73,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Modify file (Example)
         run: |
-          sed -i -r 's/tag:.*/tag:" ${{ env.TagVERSION }}"/' diplom-values.yaml
+          sed -i -r 's/tag:.*/tag: "${{ env.TagVERSION }}"/' diplom-values.yaml
           cat diplom-values.yaml
         working-directory: ./env
       - name: Commit and push changes
