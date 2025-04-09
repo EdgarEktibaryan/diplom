@@ -60,7 +60,7 @@ jobs:
           push: true
           tags: ${{ vars.DOCKER_HUB_USER }}/public-node-app:${{ env.TagVERSION }}
   manifest-version-upadate:
-    needs: build-test
+    needs: containerise-push
     runs-on: ubuntu-latest
     steps:
       - name: Variables get from previous job
