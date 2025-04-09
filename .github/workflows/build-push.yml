@@ -1,13 +1,21 @@
 name: test-task-build-deploy
 
 on:
-  push:
-    branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to build'     
+        required: true
+        type: choice
+        options:
+              - 'v1'
+              - 'v2'
 jobs:
   build-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Variables assignment
+        run: echo "AppVersion=${{ github.event.inputs.version }}" >> $GITHUB_ENV
       - name: Repository checkout
         uses: actions/checkout@v4
       - name: Unit Test
@@ -16,14 +24,16 @@ jobs:
           node-version: '22.x'
       - name: Environment preparation
         run: npm install
-        working-directory: ./app
+        working-directory: ./app-${{ env.AppVersion }}
       - name: Running tests
         run: npm test
-        working-directory: ./app
+        working-directory: ./app$-{{ env.AppVersion }}
   build-push:
     needs: build-test
     runs-on: ubuntu-latest
     steps:
+      - name: Variables assignment
+        run: echo "AppVersion=${{ github.event.inputs.version }}" >> $GITHUB_ENV
       - name: Repository checkout
         uses: actions/checkout@v4
       - name: Set up Docker Buildx
@@ -34,10 +44,10 @@ jobs:
           username: ${{ vars.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Artifact version preparation
-        run: echo "VERSION=$(date +%y-%m-%d-%H%M)" >> $GITHUB_ENV
+        run: echo "TagVERSION=$(date +%y-%m-%d-%H%M)" >> $GITHUB_ENV
       - name: Image build and push
         uses: docker/build-push-action@v6
         with:
           context: app/.
           push: true
-          tags: ${{ vars.DOCKER_HUB_USER }}/public-node-app:${{ env.VERSION }}
+          tags: ${{ vars.DOCKER_HUB_USER }}/public-node-app:${{ env.TagVERSION }}
