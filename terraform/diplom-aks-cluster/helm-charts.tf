@@ -92,6 +92,11 @@ resource "helm_release" "argo_cd" {
   namespace        = "argocd"
   create_namespace = false
 
+  set {
+    name = "server.secret.githubSecret"
+    value = var.argocd_webhook_secret
+  }
+
   values = [
     file("helm-charts/namespaces/argocd/argo-cd/values.yml")
   ]

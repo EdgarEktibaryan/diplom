@@ -108,3 +108,8 @@ variable "cf_dns_records_list" {
     "node-app"
   ]
 }
+
+variable "argocd_webhook_secret" {
+  description = "Secret for Argo and Github communication to send webhooks"
+  type        = string
+}
