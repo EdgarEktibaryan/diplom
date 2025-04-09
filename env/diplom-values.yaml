@@ -16,3 +16,16 @@ resources:
   requests:
     memory: "100Mi"
     cpu: "100m"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: node-app.edekt.com
+      paths:
+        - path: /
+          pathType: Prefix
+  # tls:
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
