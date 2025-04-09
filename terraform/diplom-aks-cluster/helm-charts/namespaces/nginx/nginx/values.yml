@@ -1,0 +1,41 @@
+controller:
+  replicaCount: 1
+  config:
+    forwarded-for-header: CF-Connecting-IP
+    use-forwarded-headers: "true"
+    custom-http-errors: "404,503"
+  service:
+    externalTrafficPolicy: Local
+    # loadBalancerIP: 130.213.174.185
+    public: true
+  lifecycle:
+    preStop:
+      exec:
+        command:
+          [
+            "/bin/sh",
+            "-c",
+            "sleep 5; /usr/bin/nginx -c /etc/nginx/nginx.conf -s quit; while pgrep -x nginx; do sleep 1; done",
+          ]
+  terminationGracePeriodSeconds: 400
+defaultBackend:
+  create: true
+  enabled: true
+  extraVolumeMounts:
+    - mountPath: /www
+      name: custom-error-pages
+  extraVolumes:
+    - configMap:
+        items:
+          - key: "404"
+            path: 404.html
+          - key: "503"
+            path: 503.html
+        name: custom-error-pages
+      name: custom-error-pages
+  image:
+    image: ingress-nginx/nginx-errors
+    registry: registry.k8s.io
+    tag: "v20230505@sha256:3600dcd1bbd0d05959bb01af4b272714e94d22d24a64e91838e7183c80e53f7f"
+rbac:
+  create: true

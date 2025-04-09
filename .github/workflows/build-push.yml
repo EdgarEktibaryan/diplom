@@ -1,0 +1,43 @@
+name: test-task-build-deploy
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v4
+      - name: Unit Test
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+      - name: Environment preparation
+        run: npm install
+        working-directory: ./app
+      - name: Running tests
+        run: npm test
+        working-directory: ./app
+  build-push:
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      - name: Artifact version preparation
+        run: echo "VERSION=$(date +%y-%m-%d-%H%M)" >> $GITHUB_ENV
+      - name: Image build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: app/.
+          push: true
+          tags: ${{ vars.DOCKER_HUB_USER }}/public-node-app:${{ env.VERSION }}

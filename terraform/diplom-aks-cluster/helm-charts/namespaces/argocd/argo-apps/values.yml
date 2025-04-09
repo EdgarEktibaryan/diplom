@@ -1,0 +1,21 @@
+
+applications:
+  - name: diplom-application
+    namespace: argocd
+    project: default
+    source:
+      repoURL: https://github.com/EdgarEktibaryan/diplom.git
+      targetRevision: refs/heads/main
+      path: argo-apps
+      directory:
+        recurse: false
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: default
+    syncPolicy:
+      automated:
+        prune: false
+        selfHeal: true
+    info:
+    - name: url
+      value: https://github.com/EdgarEktibaryan/diplom.git

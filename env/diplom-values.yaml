@@ -1,0 +1,18 @@
+replicaCount: 2
+
+image:
+  repository: "edgarektibaryan/public-node-app"
+  pullPolicy: IfNotPresent
+  tag: "25-04-07-0657"
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    memory: "100Mi"
+    cpu: "100m"
+  requests:
+    memory: "100Mi"
+    cpu: "100m"

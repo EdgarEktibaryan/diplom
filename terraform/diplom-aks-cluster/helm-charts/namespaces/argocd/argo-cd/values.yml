@@ -1,0 +1,105 @@
+## Server
+server:
+  ingress:
+    # -- Enable an ingress resource for the Argo CD server
+    enabled: true
+    # -- Additional ingress annotations
+    annotations: 
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    # -- Defines which ingress controller will implement the resource
+    ingressClassName: "nginx"
+
+    # -- List of ingress hosts
+    ## Argo Ingress.
+    ## Hostnames must be provided if Ingress is enabled.
+    ## Secrets must be manually created in the namespace
+    hosts:
+      - argocd.edekt.com
+
+    # -- List of ingress paths
+    paths:
+      - /
+    # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
+    pathType: Prefix
+    # -- Additional ingress paths
+
+    # -- Ingress TLS configuration
+    tls:
+      - hosts:
+          - argocd.edekt.com
+    
+        # secretName: cf-origin-tls
+  # -- [General Argo CD configuration]
+  # @default -- See [values.yaml]
+  # config:
+  #   url: https://argocd.edekt.com
+  
+
+# # ## Argo Configs
+# # configs:
+# # #   # -- Repository credentials to be used as Templates for other repos
+# # #   ## Creates a secret for each key/value specified below to create repository credentials
+# #   credentialTemplates: 
+# #     github-enterprise-creds-1:
+# #       url: "https://github.com/sololearn-engineering/infra-svc-manifest.git"
+# #       githubAppID: "229734"
+# #       githubAppInstallationID: "28361865"
+# #       githubAppPrivateKey: |
+# #         -----BEGIN RSA PRIVATE KEY-----
+# #         MIIEpQIBAAKCAQEA2q93iq34eu81DQfB/xUxaXy2zY/yV18rFl6iZegnSUMSXMEX
+# #         19ytCkZRXKcgk9g+ofuNkETWazaJWPGPcjywEAL2sdogbZ8PDh8K467rbR03mdiC
+# #         R7Ig3OrFILwSXZLcEocunFLT+ApCj4HcuUlDalPcRWoeetrQ0kojgk6pR9snqPnc
+# #         RiSMS8u5ElzMadUUeAMBWevpMSZb9AuFEEjVxdsO5thxlQpuREy1eKeDCb3dtoCE
+# #         kH/GBd+7DWA2pJDOilFS09zTyFmdt+ZbKG65F1NSUbE6y6qX/vPgnDc+xTzf23EQ
+# #         pRNhVpHPuegN1/Ex3FDiFjLJ1BAkA3du2+hSFQIDAQABAoIBAHxlk/qvO8myiNsA
+# #         rroLtC/tYY9Ncu2AlWIEMx0FElP6c1eP/6ArR8OwfFfYOg/f0sER91U50z7ppveR
+# #         cafqHbz98pb5Hbk94bKGtgsOVZ2cISTCpFlkWo1QfxI/6bKQ998SRtFlzG4sZ/B6
+# #         TrSXmGHDkmlqFCyOjHsS8WAOnvzgACvb1uHMnwzvOGTSr4JRkecs2mfKUBS//Ffk
+# #         aKNP+oqycj1tE/XT7eO3ieExYLlp9853TZpRykRTch6DhJu73NyZth73rbSfGyo6
+# #         GqYCazQtQCa+rxW9VIgqb63M5XBRRG5cmI0ryWI+zo1Tx9VNIwdqDbXr5VKiLKLf
+# #         ATSQH4ECgYEA9e7Bcru+gZxASwz0OzVXSJdlNRXOajb4MP81Rm1nqKv+zmeRsaSC
+# #         xFCw8yHB98zjnLNtW8SOi//+bBEcKVFp8cCA5yFQYLiB4it07Lfbo6JQuCs+7Syt
+# #         dNR16G9uV6I08tK2HSe+JHYdTXskaZBgGXEpR35Af77wYf/xpdgohu8CgYEA46Ms
+# #         v0GjyJZlYLLtz6/6sOYeVh9ixU0h9u7mD/9xH0s2lk63zDmmZvzM41nJLxdsQ7Ns
+# #         nx3pEI88ILdWfS3K11i2JI0Y/2STSMdoY3Ory+htQeVpJNQUzIy5WxzEYDvs+Y/d
+# #         ZzoP3TFDnE+rGuDNk8XRihzvPuLAZQcto/aqVzsCgYEA4LoRTzQ7utf68BmgO1Jc
+# #         tdqSAtYwTmJ4nN0342kppbm1FwsQ2REI5TcO2rzoL/Wrr49NyONtloSQClQANclN
+# #         VDmiEJIijp9LIE6xg3XmYDp8JC5wS+3derqCG6lnXPC+DX16KF4eo9bCpAB4n3Xs
+# #         OpNrMwctDQ5/Pi3QtMk3D0UCgYEAmMZascGL+oN1ZoCvukORLEhE8+f8kg5CTUfo
+# #         f7QgZ7BC4n3SPO40D8p6d9s6erBtqMIylFeuo759zDc/hKPHDuAq3j0UGdOWRbIP
+# #         DTAEjMVhDmi5OE5d5ypK/CtCYJPXZ2Z2YWFGZF070xxk6ZUWY6bQCrGAn+Pu298F
+# #         cpWJnSECgYEApOsIgWi08MZhRASBgz7zPmFaUMf15dtttxgXFgq5Abg6OEgFmUsQ
+# #         nM7+gao2khZgHUBkQr3/jf1wzBecHQiRQQ60A/rPymFx3KFeS6Nu3DXTq8rU8Pur
+# #         ubVDmpDNmPMFDCISiWlNzcvdFNlGN51sGWF9WNy1AgfMqDwTmQQhoXE=
+# #         -----END RSA PRIVATE KEY-----
+# #   repositories: 
+# #     private-repo:
+# #       url: https://github.com/sololearn-engineering/infra-svc-manifest.git
+
+
+#   secret:
+#     # -- Shared secret for authenticating GitHub webhook events
+#     githubSecret: "nnPWA7Vk2Gwqe2gBKH3gPPXNj45jFZ"
+#   # Argo CD RBAC policy configuration
+#   ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
+#   rbac:
+#     # policy.csv is a file containing user-defined RBAC policies and role definitions (optional).
+#     # Policy rules are in the form:
+#     #   p, subject, resource, action, object, effect
+#     # Role definitions and bindings are in the form:
+#     #   g, subject, inherited-subject
+#     # See https://github.com/argoproj/argo-cd/blob/master/docs` /operator-manual/rbac.md for additional information.
+#     # policy.csv: |
+#     #   # Grant all members of the group 'my-org:team-alpha; the ability to sync apps in 'my-project'
+#     #   p, my-org:team-alpha, applications, sync, my-project/*, allow
+#     #   # Grant all members of 'my-org:team-beta' admins
+#     #   g, my-org:team-beta, role:admin
+#     # policy.default is the name of the default role which Argo CD will falls back to, when
+#     # authorizing API requests (optional). If omitted or empty, users may be still be able to login,
+#     # but will see no apps, projects, etc...
+#     # policy.default: role:readonly
+#     # scopes controls which OIDC scopes to examine during rbac enforcement (in addition to `sub` scope).
+#     # If omitted, defaults to: '[groups]'. The scope value can be a string, or a list of strings.
+#     scopes: '[groups, email]'
+#     policy.csv: |
+#       g, edgar.ektibaryan@gmail.com, role:admin
