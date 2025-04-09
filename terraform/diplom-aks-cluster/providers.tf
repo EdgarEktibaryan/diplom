@@ -3,6 +3,13 @@
 # Terraform Cloud Provider Configuration 
 terraform {
   backend "azurerm" {}
+
+  required_providers {
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "5.3.0"
+    }
+  }
 }
 
 # AzureRM Provider Configuration 
@@ -42,5 +49,10 @@ provider "kubernetes" {
 # AzureAD Provider Configuration
 provider "azuread" {
     tenant_id = var.azure_tenant_id
+}
+
+# Cloudflare Provider Configuration
+provider "cloudflare" {
+  api_token = var.cf_api_token
 }
 

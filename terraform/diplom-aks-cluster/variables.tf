@@ -65,3 +65,46 @@ variable "identity_type" {
   type        = string
   default     = "UserAssigned"
 }
+
+# CF
+
+variable "cf_api_token" {
+  description = "CF token to Authenticate and Authorize in CloudFlare to make changes in DNS zone"
+  type        = string
+}
+
+variable "cf_zone_id" {
+  description = "Cloudflare zone ID"
+  type        = string
+}
+
+variable "cf_zone_name" {
+  description = "Cloudflare zone name"
+  type        = string
+}
+
+variable "cf_record_type" {
+  description = "Cloudflare record type"
+  type        = string
+  default     = "CNAME"
+}
+
+variable "cf_record_ttl" {
+  description = "Cloudflare record TTL"
+  type        = number
+  default     = 1
+}
+
+variable "cf_proxy_status" {
+  type        = bool
+  description = "Cloudflare proxy status"
+  default     = true
+}
+
+variable "cf_dns_records_list" {
+  type = list(string)
+  default = [
+    "argocd",
+    "node-app"
+  ]
+}
