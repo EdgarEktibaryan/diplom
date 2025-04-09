@@ -15,7 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Variables assignment
-        run: echo "AppVersion=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+        run: |
+          echo "AppVersion=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          echo "TagVERSION=$(date +%y-%m-%d-%H%M)" >> $GITHUB_ENV
+      - id: envs
+        run: |
+          echo "AppVersion=${{ env.AppVersion }}" >> $GITHUB_OUTPUT
+          echo "TagVERSION=${{ env.TagVERSION }}" >> $GITHUB_OUTPUT
         env:
           AppVersion: ${{ env.AppVersion }}
       - name: Repository checkout
@@ -30,14 +36,14 @@ jobs:
       - name: Running tests
         run: npm test
         working-directory: apps/app-${{ env.AppVersion }}
-  build-push:
+  containerise-push:
     needs: build-test
     runs-on: ubuntu-latest
     steps:
-      - name: Variables assignment
-        run: echo "AppVersion=${{ github.event.inputs.version }}" >> $GITHUB_ENV
-        env:
-          AppVersion: ${{ env.AppVersion }}
+      - name: Variables get from previous job
+        run: |
+          echo "AppVersion=${{ needs.build-test.outputs.AppVersion }}" >> $GITHUB_ENV
+          echo "TagVERSION=${{ needs.build-test.outputs.TagVERSION }}" >> $GITHUB_ENV
       - name: Repository checkout
         uses: actions/checkout@v4
       - name: Set up Docker Buildx
@@ -47,11 +53,36 @@ jobs:
         with:
           username: ${{ vars.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Artifact version preparation
-        run: echo "TagVERSION=$(date +%y-%m-%d-%H%M)" >> $GITHUB_ENV
       - name: Image build and push
         uses: docker/build-push-action@v6
         with:
           context: apps/app-${{ env.AppVersion }}
           push: true
           tags: ${{ vars.DOCKER_HUB_USER }}/public-node-app:${{ env.TagVERSION }}
+  manifest-version-upadate:
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Variables get from previous job
+        run: |
+          echo "AppVersion=${{ needs.build-test.outputs.AppVersion }}" >> $GITHUB_ENV
+          echo "TagVERSION=${{ needs.build-test.outputs.TagVERSION }}" >> $GITHUB_ENV
+          echo "GITUSER=${{ env.GITUSER }}" >> $GITHUB_ENV
+          echo "GITMAIL=${{ env.GITMAIL }}" >> $GITHUB_ENV
+      - name: Repository checkout
+        uses: actions/checkout@v4
+      - name: Modify file (Example)
+        run: sed -i -r 's/tag:".*"/tag:" ${{ env.TagVERSION }}"/' env/diplom-values.yaml
+        working-directory: ./env
+      - name: Commit and push changes
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        working-directory: ./env
+        run: |
+          git config --global user.name "${{ env.GITUSER }}"
+          git config --global user.email "${{ env.GITMAIL }}"
+          git remote set-url origin https://x-access-token:${PAT_TOKEN}@github.com/${{ github.repository }}
+          git add config.yaml
+          git commit -m "Update tag"
+          git push
+        
