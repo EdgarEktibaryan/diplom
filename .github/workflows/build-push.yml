@@ -61,12 +61,11 @@ jobs:
           push: true
           tags: ${{ vars.DOCKER_HUB_USER }}/public-node-app:${{ env.TagVERSION }}
   manifest-version-upadate:
-    needs: containerise-push
+    needs: [build-test, containerise-push]
     runs-on: ubuntu-latest
     steps:
       - name: Variables set
         run: |
-          echo "AppVersion=${{ needs.build-test.outputs.AppVersion }}" >> $GITHUB_ENV
           echo "TagVERSION=${{ needs.build-test.outputs.TagVERSION }}" >> $GITHUB_ENV
       - name: Repository checkout
         uses: actions/checkout@v4
