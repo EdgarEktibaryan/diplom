@@ -77,8 +77,6 @@ jobs:
       - name: Commit and push changes
         working-directory: ./env
         run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<'"${{ secrets.GITMAIL}}"'>"
           git add .
           git commit -m "Version change to '"${{ env.TagVERSION }}"'"
           git push
