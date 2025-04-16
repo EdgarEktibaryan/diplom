@@ -1,4 +1,4 @@
-name: test-task-build-deploy
+name: node-app-build-deploy
 
 on:
   workflow_dispatch:
@@ -8,16 +8,23 @@ on:
         required: true
         type: choice
         options:
-              - 'v1'
-              - 'v2'
+          - 'v1'
+          - 'v2'
 jobs:
   build-test:
     runs-on: ubuntu-latest
+    outputs:
+      AppVersion: ${{ steps.envs.outputs.AppVersion }}
+      TagVERSION: ${{ steps.envs.outputs.TagVERSION }}
     steps:
       - name: Variables assignment
-        run: echo "AppVersion=${{ github.event.inputs.version }}" >> $GITHUB_ENV
-        env:
-          AppVersion: ${{ env.AppVersion }}
+        run: |
+          echo "AppVersion=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          echo "TagVERSION=$(date +%y-%m-%d-%H%M)" >> $GITHUB_ENV
+      - id: envs
+        run: |
+          echo "AppVersion=${{ env.AppVersion }}" >> $GITHUB_OUTPUT
+          echo "TagVERSION=${{ env.TagVERSION }}" >> $GITHUB_OUTPUT
       - name: Repository checkout
         uses: actions/checkout@v4
       - name: Unit Test
@@ -30,14 +37,14 @@ jobs:
       - name: Running tests
         run: npm test
         working-directory: apps/app-${{ env.AppVersion }}
-  build-push:
+  containerise-push:
     needs: build-test
     runs-on: ubuntu-latest
     steps:
-      - name: Variables assignment
-        run: echo "AppVersion=${{ github.event.inputs.version }}" >> $GITHUB_ENV
-        env:
-          AppVersion: ${{ env.AppVersion }}
+      - name: Variables set
+        run: |
+          echo "AppVersion=${{ needs.build-test.outputs.AppVersion }}" >> $GITHUB_ENV
+          echo "TagVERSION=${{ needs.build-test.outputs.TagVERSION }}" >> $GITHUB_ENV
       - name: Repository checkout
         uses: actions/checkout@v4
       - name: Set up Docker Buildx
@@ -47,11 +54,34 @@ jobs:
         with:
           username: ${{ vars.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Artifact version preparation
-        run: echo "TagVERSION=$(date +%y-%m-%d-%H%M)" >> $GITHUB_ENV
       - name: Image build and push
         uses: docker/build-push-action@v6
         with:
           context: apps/app-${{ env.AppVersion }}
           push: true
           tags: ${{ vars.DOCKER_HUB_USER }}/public-node-app:${{ env.TagVERSION }}
+  manifest-version-upadate:
+    needs: [build-test, containerise-push]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Variables set
+        run: |
+          echo "TagVERSION=${{ needs.build-test.outputs.TagVERSION }}" >> $GITHUB_ENV
+      - name: Repository checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Modify file (Example)
+        run: |
+          sed -i -r 's/tag:.*/tag: "${{ env.TagVERSION }}"/' diplom-values.yaml
+          cat diplom-values.yaml
+        working-directory: ./env
+      - name: Commit and push changes
+        working-directory: ./env
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Version change to '"${{ env.TagVERSION }}"'"
+          git push
+        
