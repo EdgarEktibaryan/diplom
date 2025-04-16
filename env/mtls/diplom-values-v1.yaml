@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: "edgarektibaryan/public-node-app"
+  repository: "edgarektibaryan/public-node-app-v1"
   pullPolicy: IfNotPresent
   tag: "25-04-07-0657"
 
@@ -21,11 +21,8 @@ ingress:
   enabled: true
   className: "nginx"
   hosts:
-    - host: node-app.edekt.com
+    - host: node-app-v1.edekt.com
       paths:
         - path: /
           pathType: Prefix
-  # tls:
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+

@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: node-app-application
+  name: app-v2
   namespace: argocd
 spec:
   destination:
-    namespace: default
+    namespace: app-ns2
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
@@ -20,5 +20,5 @@ spec:
       releaseName: node-app
       valueFiles:
         - values.yaml
-        - ../../env/diplom-values.yaml
+        - ../../env/diplom-values-v2.yaml
         

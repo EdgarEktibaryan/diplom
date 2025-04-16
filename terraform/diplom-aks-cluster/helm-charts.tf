@@ -117,3 +117,49 @@ resource "helm_release" "argo_apps" {
   ]
   depends_on = [ helm_release.argo_cd ]
 }
+
+# https://artifacthub.io/packages/helm/istio-official/base
+resource "helm_release" "istio_base" {
+  name             = "istio-base"
+  chart            = "base"
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  version          = "1.25.2"
+  namespace        = "istio-system"
+  create_namespace = false
+
+  values = [
+    file("helm-charts/namespaces/istio-system/istio-base/values.yml")
+  ]
+  depends_on = [ helm_release.argo_cd, kubernetes_namespace.istio_system ]
+}
+
+# https://artifacthub.io/packages/helm/istio-official/istiod
+resource "helm_release" "istiod" {
+  name             = "istiod"
+  chart            = "istiod"
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  version          = "1.25.2"
+  namespace        = "istio-system"
+  create_namespace = false
+
+  values = [
+    file("helm-charts/namespaces/istio-system/istiod/values.yml")
+  ]
+  depends_on = [ helm_release.istio_base ]
+}
+
+# https://artifacthub.io/packages/helm/istio-official/istiod
+resource "helm_release" "kiali_server" {
+  name             = "kiali-server"
+  chart            = "kiali-server"
+  repository       = "https://kiali.org/helm-charts"
+  version          = "2.8.0"
+  namespace        = "istio-system"
+  create_namespace = false
+
+  values = [
+    file("helm-charts/namespaces/istio-system/istiod/values.yml")
+  ]
+  depends_on = [ helm_release.istiod]
+}
+

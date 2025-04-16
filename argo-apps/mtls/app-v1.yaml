@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-v1
+  namespace: argocd
+spec:
+  destination:
+    namespace: app-ns1
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    path: helm-chart/node-app
+    repoURL: https://github.com/EdgarEktibaryan/diplom.git
+    targetRevision: HEAD
+    helm:
+      releaseName: node-app
+      valueFiles:
+        - values.yaml
+        - ../../env/diplom-values-v1.yaml
+        

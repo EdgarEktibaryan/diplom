@@ -6,7 +6,7 @@ applications:
     source:
       repoURL: https://github.com/EdgarEktibaryan/diplom.git
       targetRevision: refs/heads/main
-      path: argo-apps
+      path: argo-apps/mtls
       directory:
         recurse: false
     destination:
