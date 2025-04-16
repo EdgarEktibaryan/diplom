@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pa-v2
+  namespace: argocd
+spec:
+  destination:
+    namespace: app-ns2
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: https://github.com/EdgarEktibaryan/diplom.git
+    targetRevision: refs/heads/master
+    path: istio-configs/app-v2-pa.yaml
+        
