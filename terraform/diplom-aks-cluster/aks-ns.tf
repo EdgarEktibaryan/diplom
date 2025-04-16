@@ -44,7 +44,7 @@ resource "kubernetes_namespace" "istio_system" {
 # node-ns1 namespace Resource
 resource "kubernetes_namespace" "app_ns1" {
   metadata {
-    name = "node-ns1"
+    name = "app-ns1"
     labels = {
       istio-injection = "enabled"
     }
@@ -59,7 +59,7 @@ resource "kubernetes_namespace" "app_ns1" {
 # node-ns2 namespace Resource
 resource "kubernetes_namespace" "app_ns2" {
   metadata {
-    name = "node-ns2"
+    name = "app-ns2"
     labels = {
       istio-injection = "enabled"
     }
