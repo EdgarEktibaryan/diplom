@@ -14,6 +14,6 @@ spec:
       selfHeal: true
   source:
     repoURL: https://github.com/EdgarEktibaryan/diplom.git
-    targetRevision: refs/heads/master
+    targetRevision: refs/heads/main
     path: istio-configs/app-v1-pa.yaml
         
