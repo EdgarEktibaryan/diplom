@@ -20,5 +20,5 @@ spec:
       releaseName: node-app
       valueFiles:
         - values.yaml
-        - ../../env/diplom-values-v2.yaml
+        - ../../env/mtls/diplom-values-v2.yaml
         

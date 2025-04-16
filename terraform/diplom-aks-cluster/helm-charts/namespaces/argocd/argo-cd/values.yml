@@ -33,10 +33,15 @@ server:
   # @default -- See [values.yaml]
   # config:
   #   url: https://argocd.edekt.com
+
+
   
 
-# # ## Argo Configs
-# # configs:
+## Argo Configs
+configs:
+
+  secret:
+    argocdServerAdminPassword: "$2a$10$ax.9fongeI4a7SIGRanHg.Kd3G3HZHgbXxQ/rubu/N7./LgBSeWya"
 # # #   # -- Repository credentials to be used as Templates for other repos
 # # #   ## Creates a secret for each key/value specified below to create repository credentials
 # #   credentialTemplates: 
