@@ -2,7 +2,7 @@ apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
   name: app-v2-pa
-  namespace: app-v2
+  namespace: app-ns1
 spec:
   mtls:
     mode: STRICT
