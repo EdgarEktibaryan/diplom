@@ -59,13 +59,14 @@ jobs:
         with:
           context: apps/app-${{ env.AppVersion }}
           push: true
-          tags: ${{ vars.DOCKER_HUB_USER }}/public-node-app:${{ env.TagVERSION }}
+          tags: ${{ vars.DOCKER_HUB_USER }}/public-node-app-${{ env.AppVersion }}:${{ env.TagVERSION }}
   manifest-version-upadate:
     needs: [build-test, containerise-push]
     runs-on: ubuntu-latest
     steps:
       - name: Variables set
         run: |
+          echo "AppVersion=${{ needs.build-test.outputs.AppVersion }}" >> $GITHUB_ENV
           echo "TagVERSION=${{ needs.build-test.outputs.TagVERSION }}" >> $GITHUB_ENV
       - name: Repository checkout
         uses: actions/checkout@v4
@@ -73,11 +74,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Modify file (Example)
         run: |
-          sed -i -r 's/tag:.*/tag: "${{ env.TagVERSION }}"/' diplom-values.yaml
-          cat diplom-values.yaml
-        working-directory: ./env
+          sed -i -r 's/tag:.*/tag: "${{ env.TagVERSION }}"/' diplom-values-${{ env.AppVersion }}.yaml
+          cat diplom-values-${{ env.AppVersion }}.yaml
+        working-directory: ./env/mtls
       - name: Commit and push changes
-        working-directory: ./env
+        working-directory: ./env/mtls
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "github-actions[bot]@users.noreply.github.com"

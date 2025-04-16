@@ -105,7 +105,9 @@ variable "cf_dns_records_list" {
   type = list(string)
   default = [
     "argocd",
-    "node-app"
+    "node-app",
+    "node-app-v1",
+    "node-app-v2"
   ]
 }
 
