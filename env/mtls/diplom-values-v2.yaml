@@ -3,7 +3,7 @@ replicaCount: 2
 image:
   repository: "edgarektibaryan/public-node-app-v2"
   pullPolicy: IfNotPresent
-  tag: "25-04-07-0657"
+  tag: "25-04-16-1845"
 
 service:
   type: ClusterIP
