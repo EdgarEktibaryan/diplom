@@ -29,7 +29,7 @@ spec:
         repoURL: https://github.com/EdgarEktibaryan/diplom.git
         targetRevision: HEAD
         helm:
-          releaseName: node-app
+          releaseName: 'mtls-{{.name}}'
           valueFiles:
             - 'values.yaml'
-            - '../../env/dist-traffic/{{values_file}}.yaml'
+            - '../../env/mtls/{{values_file}}.yaml'
