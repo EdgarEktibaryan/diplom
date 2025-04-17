@@ -14,10 +14,10 @@ spec:
         values_file: diplom-values-v2
   template:
     metadata:
-      name: 'mtls-{{.name}}'
+      name: 'mtls-{{name}}'
     spec:
       destination:
-        namespace: {{.namespace}}
+        namespace: '{{namespace}}'
         server: https://kubernetes.default.svc
       project: default
       syncPolicy:
@@ -31,5 +31,5 @@ spec:
         helm:
           releaseName: node-app
           valueFiles:
-            - values.yaml
-            - ../../env/dist-traffic/{{.values_file}}.yaml
+            - 'values.yaml'
+            - '../../env/dist-traffic/{{values_file}}.yaml'
