@@ -5,6 +5,9 @@ image:
   pullPolicy: IfNotPresent
   tag: "25-04-16-1845"
 
+podLabels:
+  version: v2
+
 service:
   type: ClusterIP
   port: 80
