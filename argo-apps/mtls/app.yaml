@@ -33,7 +33,6 @@ spec:
           releaseName: 'mtls-{{.name}}'
           values: |
             replicaCount: 2
-
             image:
               repository: "edgarektibaryan/public-node-{{name}}"
               pullPolicy: IfNotPresent
