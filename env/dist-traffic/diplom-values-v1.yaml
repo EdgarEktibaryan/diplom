@@ -1,0 +1,28 @@
+replicaCount: 2
+
+image:
+  repository: "edgarektibaryan/public-node-app-v1"
+  pullPolicy: IfNotPresent
+  tag: "25-04-16-1843"
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    memory: "100Mi"
+    cpu: "100m"
+  requests:
+    memory: "100Mi"
+    cpu: "100m"
+
+# ingress:
+#   enabled: true
+#   className: "nginx"
+#   hosts:
+#     - host: node-app-v1.edekt.com
+#       paths:
+#         - path: /
+#           pathType: Prefix
+
