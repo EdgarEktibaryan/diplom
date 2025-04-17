@@ -32,4 +32,4 @@ spec:
           releaseName: node-app
           valueFiles:
             - values.yaml
-            - ../../env/dist-traffic/{{values_file}}.yaml
+            - ../../env/dist-traffic/{{.values_file}}.yaml

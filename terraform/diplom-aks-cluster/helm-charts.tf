@@ -148,7 +148,7 @@ resource "helm_release" "istiod" {
   depends_on = [ helm_release.istio_base ]
 }
 
-# https://artifacthub.io/packages/helm/istio-official/istiod
+# 
 resource "helm_release" "kiali_server" {
   name             = "kiali-server"
   chart            = "kiali-server"

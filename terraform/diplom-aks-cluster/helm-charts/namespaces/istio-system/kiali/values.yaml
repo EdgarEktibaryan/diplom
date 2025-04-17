@@ -1,0 +1,4 @@
+spec:
+  deployment:
+    ingress:
+      enabled:

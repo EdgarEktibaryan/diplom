@@ -17,9 +17,9 @@ resource "kubernetes_namespace" "argocd" {
   metadata {
     name = "argocd"
 
-    labels = {
-      istio-injection = "enabled"
-    }
+    # labels = {
+    #   istio-injection = "enabled"
+    # }
   }
   depends_on = [azurerm_kubernetes_cluster_node_pool.node01]
 
@@ -85,4 +85,3 @@ resource "kubernetes_namespace" "dist_traffic" {
 
   timeouts {}
 }
-
