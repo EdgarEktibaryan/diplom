@@ -157,9 +157,9 @@ resource "helm_release" "kiali_server" {
   namespace        = "istio-system"
   create_namespace = false
 
-  values = [
-    file("helm-charts/namespaces/istio-system/istiod/values.yml")
-  ]
+  # values = [
+  #   file("helm-charts/namespaces/istio-system/istiod/values.yml")
+  # ]
   depends_on = [ helm_release.istiod]
 }
 

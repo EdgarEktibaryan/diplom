@@ -71,3 +71,18 @@ resource "kubernetes_namespace" "app_ns2" {
   timeouts {}
 }
 
+# dist-traffic namespace Resource
+resource "kubernetes_namespace" "dist_traffic" {
+  metadata {
+    name = "dist-traffic"
+    labels = {
+      istio-injection = "enabled"
+    }
+  }
+  
+  
+  depends_on = [azurerm_kubernetes_cluster_node_pool.node01]
+
+  timeouts {}
+}
+
