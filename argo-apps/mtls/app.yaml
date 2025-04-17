@@ -28,8 +28,31 @@ spec:
         path: helm-chart/node-app
         repoURL: https://github.com/EdgarEktibaryan/diplom.git
         targetRevision: HEAD
+
         helm:
           releaseName: 'mtls-{{.name}}'
-          valueFiles:
-            - 'values.yaml'
-            - '../../env/mtls/{{values_file}}.yaml'
+          values: |
+            replicaCount: 2
+
+            image:
+              repository: "edgarektibaryan/public-node-{{name}}"
+              pullPolicy: IfNotPresent
+              tag: "25-04-16-1843"
+            service:
+              type: ClusterIP
+              port: 80
+            resources:
+              limits:
+                memory: "100Mi"
+                cpu: "100m"
+              requests:
+                memory: "100Mi"
+                cpu: "100m"
+            ingress:
+              enabled: true
+              className: "nginx"
+              hosts:
+                - host: node-{{name}}.edekt.com
+                  paths:
+                    - path: /
+                      pathType: Prefix
