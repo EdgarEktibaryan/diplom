@@ -15,10 +15,10 @@ spec:
         values_file: diplom-values-v2
   template:
     metadata:
-      name: 'dist-traffic-{{.name}}'
+      name: 'dist-traffic-{{name}}'
     spec:
       destination:
-        namespace: '{{.namespace}}'
+        namespace: '{{namespace}}'
         server: https://kubernetes.default.svc
       project: default
       syncPolicy:
@@ -30,7 +30,7 @@ spec:
         repoURL: https://github.com/EdgarEktibaryan/diplom.git
         targetRevision: HEAD
         helm:
-          releaseName: 'dist-traffic-{{.name}}'
+          releaseName: 'dist-traffic-{{name}}'
           valueFiles:
             - 'values.yaml'
-            - '../../env/dist-traffic/{{.values_file}}.yaml'
+            - '../../env/dist-traffic/{{values_file}}.yaml'
