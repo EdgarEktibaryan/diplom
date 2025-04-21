@@ -32,4 +32,4 @@ spec:
           releaseName: 'mtls-{{name}}'
           valueFiles:
             - 'values.yaml'
-            # - '../../env/mtls/{{values_file}}.yaml'
+            - '../../env/mtls/{{values_file}}.yaml'
