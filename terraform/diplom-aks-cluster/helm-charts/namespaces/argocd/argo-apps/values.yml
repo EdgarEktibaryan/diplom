@@ -44,7 +44,7 @@ applications:
     source:
       repoURL: https://github.com/EdgarEktibaryan/diplom.git
       targetRevision: refs/heads/main
-      path: argo-apps/istio-configs
+      path: argo-apps/istio-system
       directory:
         recurse: false
     destination:
