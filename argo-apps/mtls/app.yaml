@@ -27,7 +27,6 @@ spec:
       source:
         path: helm-chart/node-app
         repoURL: https://github.com/EdgarEktibaryan/diplom.git
-        targetRevision: HEAD
         helm:
           releaseName: 'mtls-{{.name}}'
           valueFiles:
