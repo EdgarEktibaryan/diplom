@@ -38,3 +38,22 @@ applications:
     info:
     - name: url
       value: https://github.com/EdgarEktibaryan/diplom.git
+  - name: istio-system-diplom-application
+    namespace: argocd
+    project: default
+    source:
+      repoURL: https://github.com/EdgarEktibaryan/diplom.git
+      targetRevision: refs/heads/main
+      path: argo-apps/istio-configs
+      directory:
+        recurse: false
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: default
+    syncPolicy:
+      automated:
+        prune: false
+        selfHeal: true
+    info:
+    - name: url
+      value: https://github.com/EdgarEktibaryan/diplom.git

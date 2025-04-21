@@ -50,7 +50,6 @@ resource "kubernetes_namespace" "app_ns1" {
     }
   }
   
-  
   depends_on = [azurerm_kubernetes_cluster_node_pool.node01]
 
   timeouts {}
@@ -64,8 +63,7 @@ resource "kubernetes_namespace" "app_ns2" {
       istio-injection = "enabled"
     }
   }
-  
-  
+
   depends_on = [azurerm_kubernetes_cluster_node_pool.node01]
 
   timeouts {}
@@ -79,7 +77,6 @@ resource "kubernetes_namespace" "dist_traffic" {
       istio-injection = "enabled"
     }
   }
-  
   
   depends_on = [azurerm_kubernetes_cluster_node_pool.node01]
 
