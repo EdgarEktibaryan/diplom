@@ -11,7 +11,7 @@ spec:
         namespace: app-ns1
         values_file: diplom-values-v1
       - name: app-v2
-        namespace: app-ns1
+        namespace: app-ns2
         values_file: diplom-values-v2
   template:
     metadata:
