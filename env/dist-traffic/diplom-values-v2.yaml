@@ -15,10 +15,10 @@ service:
 resources:
   limits:
     memory: "100Mi"
-    cpu: "100m"
+    cpu: "25m"
   requests:
     memory: "100Mi"
-    cpu: "100m"
+    cpu: "25m"
 
 # ingress:
 #   enabled: true
