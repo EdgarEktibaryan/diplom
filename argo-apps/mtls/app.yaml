@@ -28,7 +28,7 @@ spec:
         path: helm-chart/node-app
         repoURL: https://github.com/EdgarEktibaryan/diplom.git
         helm:
-          releaseName: 'mtls-{{.name}}'
+          releaseName: 'mtls-{{name}}'
           valueFiles:
             - 'values.yaml'
             - '../../env/mtls/{{values_file}}.yaml'
