@@ -17,4 +17,4 @@ spec:
           service:
             name: kiali
             port:
-              number: 9090
+              number: 20001

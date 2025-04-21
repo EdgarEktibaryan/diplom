@@ -106,7 +106,8 @@ variable "cf_dns_records_list" {
   default = [
     "argocd",
     "node-app-v1",
-    "node-app-v2"
+    "node-app-v2",
+    "kiali"
   ]
 }
 
