@@ -107,7 +107,7 @@ variable "cf_dns_records_list" {
     "argocd",
     "node-app-v1",
     "node-app-v2",
-    "kiali"
+    # "kiali"
   ]
 }
 

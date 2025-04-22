@@ -148,18 +148,18 @@ resource "helm_release" "istiod" {
   depends_on = [ helm_release.istio_base ]
 }
 
-# 
-resource "helm_release" "kiali_server" {
-  name             = "kiali-server"
-  chart            = "kiali-server"
-  repository       = "https://kiali.org/helm-charts"
-  version          = "2.8.0"
-  namespace        = "istio-system"
-  create_namespace = false
+# # 
+# resource "helm_release" "kiali_server" {
+#   name             = "kiali-server"
+#   chart            = "kiali-server"
+#   repository       = "https://kiali.org/helm-charts"
+#   version          = "2.8.0"
+#   namespace        = "istio-system"
+#   create_namespace = false
 
-  # values = [
-  #   file("helm-charts/namespaces/istio-system/istiod/values.yml")
-  # ]
-  depends_on = [ helm_release.istiod]
-}
+#   # values = [
+#   #   file("helm-charts/namespaces/istio-system/istiod/values.yml")
+#   # ]
+#   depends_on = [ helm_release.istiod]
+# }
 
